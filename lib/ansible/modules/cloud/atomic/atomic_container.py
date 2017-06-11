@@ -206,7 +206,7 @@ def main():
     )
 
     if module.params['values'] is not None and module.params['mode'] == 'default':
-        module.fail_json(msg="values is supported only with user or system mode", err=err)
+        module.fail_json(msg="values is supported only with user or system mode")
 
     # Verify that the platform supports atomic command
     rc, out, err = module.run_command('atomic -v', check_rc=False)

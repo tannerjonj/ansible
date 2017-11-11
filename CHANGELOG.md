@@ -201,6 +201,8 @@ Ansible Changes By Release
 * win_shell and win_command modules now properly preserve quoted arguments passed on the command-line. Tasks that attempted to work around the issue by adding extra quotes/escaping may need to be reworked. See https://github.com/ansible/ansible/issues/23019 for additional detail.
 * All configuration paths are now relative to the `ansible.cfg` file used.
 * By user request, a 'configuration macro' (``CWD``) is available to force configured paths to be relative to the current working directory. Please note that this is unsafe and not recommended.
+* vmware module_utils is fixed for getting correct folder path of virtual machine.
+* Fixed unreferenced variable `resource_pool` in vmware_guest.py.
 
 
 #### New Callbacks:

@@ -1457,8 +1457,8 @@ class PyVmomiHelper(PyVmomi):
             # https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2173
 
             # provide these to the user for debugging
-            clonespec_json = serialize_spec(clonespec)
-            configspec_json = serialize_spec(self.configspec)
+            clonespec_json = vars(clonespec)
+            configspec_json = vars(self.configspec)
             kwargs = {
                 'changed': self.change_detected,
                 'failed': True,

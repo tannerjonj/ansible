@@ -1289,6 +1289,16 @@ class PyVmomiHelper(PyVmomi):
             real_datastore_name = rec_action.destination.name
         except Exception as e:
             # There is some error so we fall back to general workflow
+            datastore_freespace = 0
+            datastore = None
+            for ds in datastore_cluster_obj.childEntity:
+                if (ds.summary.freeSpace > datastore_freespace) or (ds.summary.freeSpace == datastore_freespace and not datastore):
+                    # If datastore field is provided, filter destination datastores
+                    datastore = ds
+                    datastore_freespace = ds.summary.freeSpace
+
+            if datastore:
+                return datastore.name
             return None
         return real_datastore_name
 
@@ -1527,7 +1537,19 @@ class PyVmomiHelper(PyVmomi):
             resource_pool = self.get_resource_pool()
 
         # set the destination datastore for VM & disks
-        (datastore, datastore_name) = self.select_datastore(vm_obj)
+        if self.params['datastore']:
+            # Give precendence to datastore value provided by user
+            # User may want to deploy VM to specific datastore.
+            datastore_name = self.params['datastore']
+            # Check if user has provided datastore cluster first
+            datastore_cluster = self.cache.find_obj(self.content, [vim.StoragePod], datastore_name)
+            if datastore_cluster:
+                # If user specified datastore cluster so get recommended datastore
+                datastore_name = self.get_recommended_datastore(datastore_cluster_obj=datastore_cluster)
+            # Check if get_recommended_datastore or user specified datastore exists or not
+            datastore = self.cache.find_obj(self.content, [vim.Datastore], datastore_name)
+        else:
+            (datastore, datastore_name) = self.select_datastore(vm_obj)
 
         self.configspec = vim.vm.ConfigSpec()
         self.configspec.deviceChange = []
@@ -1807,6 +1829,7 @@ def main():
         networks=dict(type='list', default=[]),
         resource_pool=dict(type='str'),
         customization=dict(type='dict', default={}, no_log=True),
+        datastore=dict(type='str'),
     )
 
     module = AnsibleModule(argument_spec=argument_spec,

@@ -143,6 +143,7 @@ See [Porting Guide](http://docs.ansible.com/ansible/devel/porting_guides.html) f
 - digital_ocean
   * digital_ocean_certificate
   * digital_ocean_floating_ip_facts
+  * digital_ocean_image_facts
   * digital_ocean_sshkey_facts
 - google:
   * gcp_dns_managed_zone

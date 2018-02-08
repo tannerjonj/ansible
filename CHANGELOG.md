@@ -162,6 +162,7 @@ While neither is technically a new plugin, these connections may now be used dir
   * digital_ocean_certificate
   * digital_ocean_floating_ip_facts
   * digital_ocean_sshkey_facts
+  * digital_ocean_region_facts
 - google
   * gcp_dns_managed_zone
 - misc

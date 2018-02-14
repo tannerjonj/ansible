@@ -1731,9 +1731,13 @@ class PyVmomiHelper(PyVmomi):
                 self.module.fail_json(msg='Unable to find resource pool "%(resource_pool)s"' % self.params)
 
             elif relospec.pool != self.current_vm_obj.resourcePool:
-                task = self.current_vm_obj.RelocateVM_Task(spec=relospec)
-                self.wait_for_task(task)
-                change_applied = True
+                try:
+                    task = self.current_vm_obj.RelocateVM_Task(spec=relospec)
+                    self.wait_for_task(task)
+                    change_applied = True
+                except vim.fault.NoPermission as no_permission:
+                    self.module.fail_json(msg="Failed to relocate virtual machine"
+                                              " due to permission issue : %s" % to_native(no_permission.msg))
 
         # Only send VMWare task if we see a modification
         if self.change_detected:

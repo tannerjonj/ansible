@@ -1214,6 +1214,8 @@ lib/ansible/modules/cloud/vmware/vmware_guest.py E322
 lib/ansible/modules/cloud/vmware/vmware_guest.py E324
 lib/ansible/modules/cloud/vmware/vmware_guest.py E325
 lib/ansible/modules/cloud/vmware/vmware_guest.py E326
+lib/ansible/modules/cloud/vmware/vmware_guest_disk.py E325
+lib/ansible/modules/cloud/vmware/vmware_guest_disk.py E326
 lib/ansible/modules/cloud/vmware/vmware_guest_disk_facts.py E325
 lib/ansible/modules/cloud/vmware/vmware_guest_disk_facts.py E326
 lib/ansible/modules/cloud/vmware/vmware_guest_facts.py E325
